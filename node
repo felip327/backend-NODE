@@ -1,0 +1,55 @@
+const express = require('express');
+const app = express();
+
+//permitir receber dados em JSON
+app.user(express());
+
+//Simula um "banco de dados" em memória
+let produtos =[
+    {id: 1, nome:"Mouse"},
+    {id: 2, nome:"Teclado"}
+];
+
+//POST
+app.post('/api/produtos',(req,res) =>{
+    const novoProduto ={
+        id:produtos.length +1,
+        nome:req.body.nome
+    };
+    produtos.push(novoProduto);
+    res.status(201).json(novoProduto)
+})
+
+//GET - Lista todos os produtos
+app.get('/api/produtos',(req,res) =>{
+    res.json(produtos);
+})
+
+//rota principal
+app.get('/', (req, res) =>{
+    res.send('olá, este é o servidor com express 🤩');
+})
+
+//rota "sobre"
+app.get('/sobre',(req,res) =>{
+    res.send('página sobre');
+});
+
+//rota "produtos"
+app.get('/produtos', (req,res) =>{
+    res.send('lista de produtos');
+});
+
+//rota que retorna JSON (simula uma API)
+app.get('/api/produtos', (req,res) =>{
+    const produtos = [
+        {id: 1,nome:'Mouse'},
+        {id: 2,nome:'Teclado'}
+    ];
+    res.json(produtos);
+})
+
+//inicia o servidor na porta 3000
+app.listen(3000, () =>{
+    console.log('servidor rodando http://localhost:3000');
+});
